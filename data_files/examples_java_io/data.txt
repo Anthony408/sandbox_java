@@ -1,0 +1,12 @@
+Larry
+Joe
+Fred
+has
+xyz:  this is the line we're looking for!
+somewhere
+out
+there
+over
+the
+rainbow.
+data_files/examples_java_io/data.txt

@@ -1,6 +1,6 @@
-package com.github.anthony408;
+package com.github.anthony408.examples;
 
-public class Main {
+public class HelloWorld {
 
     public static void main(String[] args) {
 
