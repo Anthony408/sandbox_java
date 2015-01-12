@@ -1,6 +1,7 @@
 package problems.component_installer;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Internal class representation of a component tree node.
@@ -9,8 +10,8 @@ public class ComponentNode {
 
     private String name;
     private Boolean explicitly_installed;
-    private LinkedList<String> children;
-    private LinkedList<String> parents;
+    private List<String> children;
+    private List<String> parents;
 
     /**
      * Constructor.
@@ -19,8 +20,8 @@ public class ComponentNode {
     public ComponentNode(String name){
         this.name = name;
         this.explicitly_installed = false; // initialize to false, set to true when installed explicitly.
-        this.children = new LinkedList<>(); // initialize as empty, set when installing & updating links.
-        this.parents = new LinkedList<>(); // initialize as empty, set when installing & updating links.
+        this.children = new ArrayList<String>(); // initialize as empty, set when installing & updating links.
+        this.parents = new ArrayList<String>(); // initialize as empty, set when installing & updating links.
     }
 
     public String getName() {
@@ -39,19 +40,19 @@ public class ComponentNode {
         this.explicitly_installed = explicitly_installed;
     }
 
-    public LinkedList<String> getChildren() {
+    public List<String> getChildren() {
         return children;
     }
 
-    public void setChildren(LinkedList<String> children) {
+    public void setChildren(List<String> children) {
         this.children = children;
     }
 
-    public LinkedList<String> getParents() {
+    public List<String> getParents() {
         return parents;
     }
 
-    public void setParents(LinkedList<String> parents) {
+    public void setParents(List<String> parents) {
         this.parents = parents;
     }
 }

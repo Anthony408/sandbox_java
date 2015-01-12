@@ -1,17 +1,24 @@
 package problems.component_installer;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.logging.Logger;
 
 /**
  * ComponentTree Object.
  */
 public class ComponentTree {
+    private final Logger LOGGER = Logger.getLogger(Thread.currentThread().getStackTrace()[0].getClassName());
 
     HashMap<String, ComponentNode> nodes = new HashMap<String, ComponentNode>(); // stores String --> ComponentNode  mappings.
     LinkedList<String> installedComponents = new LinkedList<String>(); // list of installed components.
 
-    public void executeDepend(String name, LinkedList<String> children){
+    public void executeDepend(String name, List<String> children){
+
+        List<String> parents = new ArrayList<String>();
+        insertNode(name, parents, children);
     }
 
     public void executeInstall(String name){
@@ -32,7 +39,7 @@ public class ComponentTree {
         insertNode(name, parents, children);
     }
     
-    private void insertNode(String name, LinkedList<String> parents, LinkedList<String> children){
+    private void insertNode(String name, List<String> parents, List<String> children){
 
         assert parents != null;
         assert children != null;
@@ -143,7 +150,7 @@ public class ComponentTree {
     }
 
     private void updateChildrenReferences(ComponentNode node) {
-        LinkedList<String> children = node.getChildren();
+        List<String> children = node.getChildren();
         for (String child_name : children) {
             // make sure all the children's parent reference point to this node.
             ComponentNode child_node = getNode(child_name);
@@ -158,7 +165,7 @@ public class ComponentTree {
     }
 
     private void updateParentsReferences(ComponentNode node) {
-        LinkedList<String> parents = node.getParents();
+        List<String> parents = node.getParents();
         for (String parent_name : parents) {
             // make sure all the children's parent reference point to this node.
             ComponentNode parent_node = getNode(parent_name);
@@ -197,8 +204,9 @@ public class ComponentTree {
         
         
         // check if the node has children, these must be installed first.
-        LinkedList<String> children = node.getChildren();
+        List<String> children = node.getChildren();
         for (String child_name : children) {
+            LOGGER.info(String.format("... installing child %s ", child_name));
             installNode(child_name, false);
         }
         node.setExplicitly_installed(explicit_install);
@@ -231,7 +239,7 @@ public class ComponentTree {
         
         // remove it, then its children if they can be removed.
         installedComponents.remove(name);
-        LinkedList<String> children = node.getChildren();
+        List<String> children = node.getChildren();
         for (String child_name : children) {
             removeNode(child_name, false); // explicit_remove set to false.
         }
