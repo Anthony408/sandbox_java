@@ -153,8 +153,16 @@ public class ComponentTree {
         List<String> children = node.getChildren();
         for (String child_name : children) {
             // make sure all the children's parent reference point to this node.
-            ComponentNode child_node = getNode(child_name);
+            ComponentNode child_node = null;
+            
+            if (nodeExists(child_name)){
+                child_node = getNode(child_name);
+            } else {
+                assert false;  // why would this occur?  If referencing nodes to update, they should exist! //TODO
+            }
+
             // if the child's parent reference doesnt contain this node's name, add it.
+            assert child_node != null;
             if (!child_node.getParents().contains(node.getName())){
                 LinkedList<String> new_parent_list = new LinkedList<String>();
                 new_parent_list.addAll(child_node.getParents());
@@ -168,8 +176,16 @@ public class ComponentTree {
         List<String> parents = node.getParents();
         for (String parent_name : parents) {
             // make sure all the children's parent reference point to this node.
-            ComponentNode parent_node = getNode(parent_name);
+            ComponentNode parent_node = null;
+            if (nodeExists(parent_name)){
+                parent_node = getNode(parent_name);
+            } else {
+                //parent_node = new ComponentNode(parent_name);
+                assert false; // ERROR HERE, why would parents be referenced but not exist?! // TODO 
+            }
+            
             // if the child's parent reference doesnt contain this node's name, add it.
+            assert parent_node != null;
             if (!parent_node.getChildren().contains(node.getName())){
                 LinkedList<String> new_children_list = new LinkedList<String>();
                 new_children_list.addAll(parent_node.getParents());
