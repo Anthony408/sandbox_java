@@ -1,4 +1,4 @@
-package com.github.anthony408.examples.file_io;
+package com.github.anthony408.examples;
 
 public class ExampleStringInterpolation {
 
