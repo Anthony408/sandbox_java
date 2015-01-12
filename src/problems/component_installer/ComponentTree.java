@@ -11,26 +11,27 @@ public class ComponentTree {
     HashMap<String, ComponentNode> nodes = new HashMap<String, ComponentNode>(); // stores String --> ComponentNode  mappings.
     LinkedList<String> installedComponents = new LinkedList<String>(); // list of installed components.
 
-    public String executeDepend(String name, LinkedList<String> children){
-        String result = "TODO";
-        return result;
+    public void executeDepend(String name, LinkedList<String> children){
     }
 
-    public String executeInstall(String name){
-        String result = "TODO";
-        return result;
+    public void executeInstall(String name){
+        installNode(name, true); // top level explicitly calling install on this name (set to true)
     }
 
-    public String executeRemove(String name){
-        String result = "TODO";
-        return result;
+    public void executeRemove(String name){
+        removeNode(name, true); // top level explicitly calling remove on this name (set to true)
     }
 
-    public String executeList(){
-        String result = "TODO";
-        return result;
+    public void executeList(){
+        printInstalledComponents();
     }
 
+    private void insertNode(String name){
+        LinkedList parents = new LinkedList<String>();
+        LinkedList children = new LinkedList<String>();
+        insertNode(name, parents, children);
+    }
+    
     private void insertNode(String name, LinkedList<String> parents, LinkedList<String> children){
 
         assert parents != null;
@@ -173,18 +174,81 @@ public class ComponentTree {
 
 
 
-    private String installNode(String name){ //TODO
-        String result = "TODO";
-        return result;
+    private void installNode(String name, boolean explicit_install){ //TODO
+        // make sure the node exists first, if not create it.
+        if(!nodeExists(name)){
+            insertNode(name);
+        } 
+        
+        // node now exists, install its dependencies first, then it.
+        ComponentNode node = getNode(name);
+        
+        // make sure the node is not already installed
+        if (installedComponents.contains(name)) {
+            // only return an error if explicitly attempted to re-install
+            if ( explicit_install ) {
+                System.out.print(String.format("\t%s is already installed.", name));
+            }
+            // else dont print an error, just return
+            return;
+        }
+        
+        // node isnt already installed, proceed to install it.
+        
+        
+        // check if the node has children, these must be installed first.
+        LinkedList<String> children = node.getChildren();
+        for (String child_name : children) {
+            installNode(child_name, false);
+        }
+        node.setExplicitly_installed(explicit_install);
+        installedComponents.add(name);
+        System.out.println(String.format("\tInstalling %s", name));
     }
     
-    private String removeNode(String name){ //TODO
-        String result = "TODO";
-        return result;
+    private void removeNode(String name, boolean explicit_remove){
+
+        // make sure the node exists first, if not return an error
+        if(!nodeExists(name)){
+            if (explicit_remove){
+                System.out.println(String.format("\t%s has not been installed.", name));
+            } else {
+                return; // only return an error if explicitly told to remove.
+            }
+        }
+
+        // node exists, remove it, THEN its children
+        ComponentNode node = getNode(name);
+
+        // make sure nothing depends on it (no parents)
+        if (node.getParents().size() > 0) {
+            if (explicit_remove){
+                System.out.println(String.format("\t%s can not be removed.", name));
+            } else {
+                return; // dont throw error if implicitly attempting, just return and dont remove.
+            }
+        }
+        
+        // remove it, then its children if they can be removed.
+        installedComponents.remove(name);
+        LinkedList<String> children = node.getChildren();
+        for (String child_name : children) {
+            removeNode(child_name, false); // explicit_remove set to false.
+        }
     }
 
     private ComponentNode getNode(String name) {
         return nodes.get(name);
+    }
+    
+    private void printInstalledComponents(){
+        for (String installedComponent : installedComponents) {
+            System.out.println(String.format("\t%s\n", installedComponent));
+        }
+    }
+    
+    private boolean nodeExists(String name) {
+        return nodes.containsKey(name);
     }
 
 
