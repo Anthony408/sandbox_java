@@ -1,6 +1,6 @@
 package problems.component_installer;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -20,8 +20,8 @@ public class ComponentNode {
     public ComponentNode(String name){
         this.name = name;
         this.explicitly_installed = false; // initialize to false, set to true when installed explicitly.
-        this.children = new ArrayList<String>(); // initialize as empty, set when installing & updating links.
-        this.parents = new ArrayList<String>(); // initialize as empty, set when installing & updating links.
+        this.children = new LinkedList<>(); // initialize as empty, set when installing & updating links.
+        this.parents = new LinkedList<>(); // initialize as empty, set when installing & updating links.
     }
 
     public String getName() {
@@ -54,5 +54,18 @@ public class ComponentNode {
 
     public void setParents(List<String> parents) {
         this.parents = parents;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+                "\n--------------------------------\n" +
+                "Name: %s\n" +
+                "ExplicitlyInstalled: %s\n" +
+                "Parents: %s\n" +
+                "Children: %s" + 
+                "\n--------------------------------\n",
+                getName(), getExplicitly_installed(), getParents(), getChildren()
+        );
     }
 }
