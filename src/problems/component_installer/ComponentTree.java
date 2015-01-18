@@ -95,19 +95,21 @@ public class ComponentTree {
          * create children if they don't exist yet.
          */
 
-        List<String> parentList = new ArrayList<String>();
-        parentList.add(name);
+        List<String> updatedParentList = new ArrayList<String>();
         
         for (String child_name : children) {
+            updatedParentList.clear();
+            updatedParentList.add(name);
+            
             if(!nodeExists(child_name)){
                 ComponentNode childNode = new ComponentNode(child_name);
                 
-                childNode.setParents(parentList);
+                childNode.setParents(updatedParentList);
                 nodes.put(child_name, childNode);
             } else {
                 ComponentNode childNode = getNode(child_name);
-                parentList.addAll(childNode.getParents()); // add existing parent list.
-                childNode.setParents(parentList);
+                updatedParentList.addAll(childNode.getParents()); // add existing parent list.
+                childNode.setParents(updatedParentList);
             }
         }
 
@@ -154,52 +156,6 @@ public class ComponentTree {
         removeUpdateParentsChildReferences(node);
     }
     
-//    private void updateAddChildrenReferences(ComponentNode node) {
-//        List<String> children = node.getChildren();
-//        for (String child_name : children) {
-//            // make sure all the children's parent reference point to this node.
-//            ComponentNode child_node = null;
-//
-//            if (nodeExists(child_name)){
-//                child_node = getNode(child_name);
-//            } else {
-//                assert false;  // why would this occur?  If referencing nodes to update, they should exist! //TODO
-//            }
-//
-//            // if the child's parent reference doesnt contain this node's name, add it.
-//            assert child_node != null;
-//            if (!child_node.getParents().contains(node.getName())){
-//                List<String> new_parent_list = new ArrayList<String>();
-//                new_parent_list.addAll(child_node.getParents());
-//                new_parent_list.add(node.getName());
-//                child_node.setParents(new_parent_list);
-//            }
-//        }
-//    }
-
-//    private void updateParentsReferences(ComponentNode node) {
-//        List<String> parents = node.getParents();
-//        for (String parent_name : parents) {
-//            // make sure all the children's parent reference point to this node.
-//            ComponentNode parent_node = null;
-//            if (nodeExists(parent_name)){
-//                parent_node = getNode(parent_name);
-//            } else {
-//                //parent_node = new ComponentNode(parent_name);
-//                assert false; // ERROR HERE, why would parents be referenced but not exist?! // TODO
-//            }
-//
-//            // if the child's parent reference doesnt contain this node's name, add it.
-//            assert parent_node != null;
-//            if (!parent_node.getChildren().contains(node.getName())){
-//                List<String> new_children_list = new ArrayList<String>();
-//                new_children_list.addAll(parent_node.getParents());
-//                new_children_list.add(node.getName());
-//                parent_node.setChildren(new_children_list);
-//            }
-//        }
-//    }
-
     private void installNode(String name, boolean explicit_install){ //TODO
         // make sure the node exists first, if not create it.
         if(!nodeExists(name)){
@@ -258,6 +214,14 @@ public class ComponentTree {
             }
             return; // if there are parents, can not remove, return.
         }
+        
+        // make sure not an implicit removal attempt when it was explicitly installed, fail silently.
+        if( node.getExplicitly_installed() ){
+            if (! explicit_remove ) {
+                // return quietly
+                return;
+            }
+        }
 
         // remove it, then its children if they can be removed.
         System.out.println(String.format("\tRemoving %s.", name));
@@ -277,7 +241,7 @@ public class ComponentTree {
     private void printInstalledComponents(){
         for (String installedComponent : installedComponents) {
             System.out.println(String.format("\t%s", installedComponent));
-            System.out.println(getNode(installedComponent));
+//            System.out.println(getNode(installedComponent));
         }
     }
 
