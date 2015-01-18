@@ -176,3 +176,112 @@ public class Installer {
         installer.run_installer(inputFile);
     }
 }
+
+
+/*
+-- OUTPUT -- 
+/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/bin/java -Didea.launcher.port=7536 "-Didea.launcher.bin.path=/Applications/IntelliJ IDEA 14.app/Contents/bin" -Dfile.encoding=UTF-8 -classpath "/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/lib/ant-javafx.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/lib/dt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/lib/javafx-mx.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/lib/jconsole.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/lib/sa-jdi.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/lib/tools.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/charsets.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/deploy.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/javaws.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/jce.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/jfr.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/jfxswt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/jsse.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/management-agent.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/plugin.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/resources.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/rt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/ext/cldrdata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/ext/dnsns.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/ext/jfxrt.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/ext/localedata.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/ext/nashorn.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/ext/sunec.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/ext/sunjce_provider.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/ext/sunpkcs11.jar:/Library/Java/JavaVirtualMachines/jdk1.8.0_25.jdk/Contents/Home/jre/lib/ext/zipfs.jar:/Users/agaglian/IdeaProjects/sandbox_java/out/production/sandbox_java:/Users/agaglian/.m2/repository/org/abego/treelayout/org.abego.treelayout.core/1.0.1/org.abego.treelayout.core-1.0.1.jar:/Users/agaglian/.m2/repository/org/abego/treelayout/org.abego.treelayout.demo/1.0.1/org.abego.treelayout.demo-1.0.1.jar:/Users/agaglian/.m2/repository/jgraph/jgraph/5.13.0.0/jgraph-5.13.0.0.jar:/Applications/IntelliJ IDEA 14.app/Contents/lib/idea_rt.jar" com.intellij.rt.execution.application.AppMain problems.component_installer.Installer
+DEPEND TELNET TCPIP NETCARD
+DBG NODE:
+--------------------------------
+Name: TELNET
+ExplicitlyInstalled: false
+Parents: []
+Children: [TCPIP, NETCARD]
+--------------------------------
+
+DEPEND TCPIP NETCARD
+DBG NODE:
+--------------------------------
+Name: TCPIP
+ExplicitlyInstalled: false
+Parents: [TELNET]
+Children: [NETCARD]
+--------------------------------
+
+DEPEND DNS TCPIP NETCARD
+DBG NODE:
+--------------------------------
+Name: DNS
+ExplicitlyInstalled: false
+Parents: []
+Children: [TCPIP, NETCARD]
+--------------------------------
+
+DEPEND BROWSER TCPIP HTML
+DBG NODE:
+--------------------------------
+Name: BROWSER
+ExplicitlyInstalled: false
+Parents: []
+Children: [TCPIP, HTML]
+--------------------------------
+
+INSTALL NETCARD
+	Installing NETCARD
+INSTALL TELNET
+	Installing TCPIP
+	Installing TELNET
+LIST
+	NETCARD
+	TCPIP
+	TELNET
+INSTALL foo
+DBG NODE:
+--------------------------------
+Name: foo
+ExplicitlyInstalled: false
+Parents: []
+Children: []
+--------------------------------
+
+	Installing foo
+REMOVE NETCARD
+	NETCARD is still needed.
+INSTALL BROWSER
+	Installing HTML
+	Installing BROWSER
+INSTALL DNS
+	Installing DNS
+LIST
+	NETCARD
+	TCPIP
+	TELNET
+	foo
+	HTML
+	BROWSER
+	DNS
+REMOVE TELNET
+	Removing TELNET.
+	...Cant remove(TCPIP)! still has parents([BROWSER])
+	...Cant remove(NETCARD)! still has parents([DNS, TCPIP])
+REMOVE NETCARD
+	NETCARD is still needed.
+REMOVE DNS
+	Removing DNS.
+	...Cant remove(TCPIP)! still has parents([BROWSER])
+	...Cant remove(NETCARD)! still has parents([TCPIP])
+REMOVE NETCARD
+	NETCARD is still needed.
+INSTALL NETCARD
+	NETCARD is already installed.
+REMOVE TCPIP
+	TCPIP is still needed.
+LIST
+	NETCARD
+	TCPIP
+	foo
+	HTML
+	BROWSER
+REMOVE BROWSER
+	Removing BROWSER.
+	Removing TCPIP.
+	Removing HTML.
+REMOVE TCPIP
+	Removing TCPIP.
+LIST
+	NETCARD
+	foo
+END
+
+ */
