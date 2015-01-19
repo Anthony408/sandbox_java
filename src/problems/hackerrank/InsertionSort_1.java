@@ -18,12 +18,9 @@ public class InsertionSort_1 {
          */
             int ptr_cur = ar.length - 1;  // starts off with the ending.
             int current_value = ar[ptr_cur];
-            boolean swapped = true;
+            boolean swapped;
             for (int cur_idx = ar.length - 2; cur_idx >= 0; cur_idx--) {
-                // current value at the cur_idx position.  check this vs each.
                 int compare_value = ar[cur_idx]; // this
-                // System.out.println(current_value + " < "+ compare_value + "=" + (current_value < compare_value ? "True":"False"));
-                
                 if (compare_value > current_value ) {
                     // SWAP COMPARE VALUE RIGHT
                     ar[cur_idx+1] = compare_value;
@@ -78,20 +75,21 @@ public class InsertionSort_1 {
     
     /* Tail starts here */
     public static void main(String[] args) {
-//        int[] arr = parseInput(); // parse System.in input for this problem
+        int[] arr = parseInput(); // parse System.in input for this problem
 //        int[] arr_data_input_1 = new int[] {1,3,5,9,13,22,27,35,46,51,55,83,87,23};
-        int[] arr_data_input_2 = new int[] {2,3,4,5,6,7,8,9,10,1};
-        int[] arr = arr_data_input_2;
+
+//        int[] arr_data_input_2 = new int[] {2,3,4,5,6,7,8,9,10,1};
 /*
-2 3 4 5 6 7 8 9 10 10
-2 3 4 5 6 7 8 9 9 10
-2 3 4 5 6 7 8 8 9 10
-2 3 4 5 6 7 7 8 9 10
-2 3 4 5 6 6 7 8 9 10
-2 3 4 5 5 6 7 8 9 10
-2 3 4 4 5 6 7 8 9 10
-2 3 3 4 5 6 7 8 9 10
-1 2 3 4 5 6 7 8 9 10
+            2 3 4 5 6 7 8 9 10 10
+            2 3 4 5 6 7 8 9 9 10
+            2 3 4 5 6 7 8 8 9 10
+            2 3 4 5 6 7 7 8 9 10
+            2 3 4 5 6 6 7 8 9 10
+            2 3 4 5 5 6 7 8 9 10
+            2 3 4 4 5 6 7 8 9 10
+            2 3 3 4 5 6 7 8 9 10
+            2 2 3 4 5 6 7 8 9 10
+            1 2 3 4 5 6 7 8 9 10
  */
         insertIntoSorted(arr);
     }
