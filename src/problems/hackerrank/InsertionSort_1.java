@@ -1,6 +1,8 @@
 package problems.hackerrank;
 import java.util.*;
 
+// https://www.hackerrank.com/challenges/insertionsort1
+
 public class InsertionSort_1 {
 
     public static void insertIntoSorted(int[] ar) {
