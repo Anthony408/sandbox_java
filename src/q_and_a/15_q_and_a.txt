@@ -1,0 +1,337 @@
+Review Java
+
+https://www.udemy.com/blog/java-interview-questions/
+
+1.  what is JVM?
+
+JVM stands for java virtual machine, which is an interpretter that accepts byte code and executes them.
+
+The workflow works like this:
+    a.  developer writes source files (.java)
+    b.  developer compiles the source files via javac into bytecode class files (.class)
+    c.  these class files can be ran on any architecture via the JVM (JRE)
+
+2.  What does it mean to be platform independent? 
+    Java is said to be platform independent because the code can be compiled once, and ran anywhere.
+    The .class files can be ran from any architecture via the JRE.
+    
+    wikipedia: "JVMs are available for many platforms, and a class file compiled on one platform will execute on
+                a JVM of another platform. This makes Java platform-independent."
+                
+3.  What is the difference between JDK and JRE
+    JDK is what developers must install to develop (Java Development Kit)
+    JRE is an implementation of the java JVM which actually executes the bytecode.
+    
+4.  What does Static mean?
+    Static means that that object/variable/method is available at the object level with out making instances of that object.
+    Example:
+    
+    Class Foo {
+        
+        static public int FAVNUMBER = 2834;  
+        static public String getName() { return "Foo!"; }
+
+
+    }
+
+    System.out.println(Foo.FAVNUMBER); // accessible outside an instance of Foo, will print 2834 for example.
+    System.out.println(Foo.getName()); // for any Foo or child of Foo (extends Foo) will print Foo unless overwritten.
+
+    This would come in handy for example for ENUMS that may fall from a particular object type...
+    Example:  Session object, and you can have it hold a public static enum to hold things like "TLS, INSECURE, TCP..."
+              this way when other areas of code may want to figure what kind of session this may be they can use the 
+              enum that falls under this particular object.  (Examples, we had features that acted differently based
+              on the different types of sessions that existed)
+    
+5.  What are the data types supported by Java?  What is Autoboxing and Unboxing?
+
+    Java supports the following  8 primitives:
+    a. int
+    b. long
+    c. float
+    d. double
+    e. String
+    f. char
+    g. byte
+    h. short
+    
+    Autoboxing is when java attempts to automatically transform a primitive type into their object equivalent.
+    Example: int-->Intger, long-->Long, double-->Double, float-->Float, etc.
+    
+    Unboxing is when java attempts to automatically transform an object type into their primitive equivalent.
+    Example: Integer-->int, Long-->long, Double-->double, etc.
+    
+6.  What is the difference between String and StringBuffer
+
+    String is immutable and StringBuffer is.
+    
+    Example: 
+    
+    String s = "foo";
+    s += "bar";
+    
+    // this has to create a new String s, make it foobar, and then point to it.
+    // which is not as efficient as if you had a mutable object like String Buffer
+    // Performance Issue!
+    
+    // StringBuffer / StringBuilder objects are mutable:
+    StringBuffer sb = new StringBuffer();
+    sb += "Hello ";
+    sb += "World";
+    // single sb has been instantiated, and each time you do += / append, it just modifies the existing object.
+    
+6.  What is Function Over-Riding and Over-Loading in Java?
+
+    Function Over-Riding
+    --------------------
+        Is used in the case of OOP and inheritance, and allows for objects to modify inheritance behaviors.
+    
+    For example lets say you have a parent class "ANIMAL", and a child class "DOG" which "extends ANIMAL".
+    
+    public class Animal { 
+        public String makeNoise() { return "Grrrrrr"; } // assumes all animals growl.
+    }
+    
+    public class Dog extends Animal(){
+        @Override
+        public String makeNoise() { return "Wooof!"; } // overrides the parent's makeNoise() and will return "Woof!"
+    }
+    
+    Function Over-Loading
+    ----------------------
+        in Java deals with signatures and allowing a single function to have different actions
+        or be possible to execute with variations of input.  For Example:
+                          
+    public class Animal {
+        public String makeNoise() { return "Grrrrrr"; } // with no arguments it growls
+        public String makeNoise(int weight) { return "Integer:" String.valueOf(weight); } // with (int) as the input does this.
+        public String makeNoise(double weight) { return "Double:" + String.valueOf(weight); } // etc
+        public Double makeNoise(float weight) { return weight*2; } // example of how the return type also can be modified.
+    
+        public static void main ( String[] args ) {
+            Animal a = new Animal();
+            System.out.println(a.makeNoise()); // prints "Grrrr"
+            System.out.println(a.makeNoise(3)); // prints "Integer: 3"
+            System.out.println(a.makeNoise(3.14159)); // prints "Double: 3.14159"
+            System.out.println(a.makeNoise((float)1.23)); // auto-boxing will choose double, make sure its a float.
+        }
+    
+    }
+    
+7.  What is Constructors, Constructor Overloading in Java, and Copy-Constructor?
+
+    Constructors
+    ------------
+        Constructors are the way in which an object is instantiated, and a constructor is the signature in which requires
+        parameters as input to instantiate the object.
+        
+        Constructors may be public, private, or protected.
+            public - available to all
+            private - this constructor is only available internally.
+            protected - this constructor is only available with in the same package.
+        
+        
+        For example you can make the default constructor not-possible by saying:
+        private Animal(); // this will block users from creating an empty constructor, say if you required input.
+        
+   Constructor Overloading
+   -----------------------
+        In the same fashion as function overloading, overloading a constructor allows you to instantiate an object
+        with different sets of input variables (different signature)
+        
+   Copy Constructor
+   ----------------
+   Java does not support this, its something for people with C/C++ backgrounds.
+   
+   
+   8.  What is Java Exception Handling?  Whats the difference between Errors, Unchecked Exceptions, and Checked Exceptions?
+   
+   
+   Java Exception Handling
+   ------------------------
+   Java exception handling is java's way of handling an abnormal issue.
+   
+   In Java Exceptions are objects.  When you throw an exception, you throw an object.
+   These objects must be descendant from Throwable.  Throwable serves as the base class for an
+   entire familiy of classes, declared in java.lang that your program can instantiate and throw.
+   Here's a hierarchical Exception class structure.
+   
+            Java.lang Throwable
+              /             \
+             /               \
+          ERROR           Exception
+                         /          \
+                        /            \
+                       /              \
+             Unchecked Exceptions    Checked Exceptions
+               Inherits from
+              RunTimeException
+              
+    Unchecked Exception:
+    --------------------
+        Inherits from RunTimeException (which extends from Exception).  
+        The JVM treas RunTime exceptions differently as there is no requirement for the application
+        to deal with them explicitly.
+        
+    A Checked Exception
+    --------------------
+        Inherits from the Exception class.  The client code has to handle the checked exception either 
+        in a try-catch clause or has to be thrown for the super class to catch the same.
+        A Checked Exception thrown by a lower class (sub-class) enforces a contract on the invoking class (Super-class)
+        to catch it or throw it.
+        
+    Errors
+    ------
+        Errors are members of the ERROR family are usually thrown for more serious problems.
+        These are things such as OutOfMemoryError (OOM) that may not be so easy to handle.
+        
+     
+    9.  What is the difference between Throw, Throws in java exception handling?
+    
+    
+    Throw
+    -----
+        Throws clause lists the types of exceptions might throw, thereby warning the invoking method 
+        --> "You need to handle the list of exceptions I might throw"
+        The user of this method must surround it with try/catch or also say itself throws the same list.
+        
+        Example:
+        
+        public void myMethod() throws PRException
+        {..}
+        
+        This means the super function calling the function should be equipped to handle this exception.
+        public void Callee()
+        {
+            try {
+               myMethod();
+            } catch(PRException ex){
+                    // ...handle Exception....
+            }
+        }
+    
+    Throws
+    ------
+        Using Throw - if the user wants to throw an explicit exception, often customized we use Throw.
+        The Throw clause can be used in any part of code wher eyou feel a specific exception needs to be thrown to the
+        calling method.
+        
+        Example:
+        try{
+            if(age>100){
+                throw new AgeBarException(); //Customized Exception
+            }else{
+                //....
+            }
+        } catch(AgeBarException ex){
+            ...handle Exception.....
+        }
+        
+    10. What is the difference between Byte Stream and Character Stream?
+    
+        These are the types of questions that every java programmer must know to deal with file IO.
+        
+        Byte Stream:   For reading and writing binary data, byte stream is incorporated.
+                       Programs use byte streams to perform byte input / output (example serialization of java objects)
+                       
+                       * Performing InputStream operations or OutputStream operations means generally having a loop
+                         that reads the input stream and writes the output stream one byte at a time.
+                         
+                       * You can use Buffered I/O streams for an overhead reduction.
+                         (Overhead generated by each such request often triggers a disk access, network activity, or
+                          some other operation that is relatively expensive)
+                          
+        Character Streams:  Character streams work with the characters rather than the byte.
+                            In java, characters are stored by the following Unicode
+                            (allows a unique number of every character) conventions.
+                            In such kind fo storage, characters becmoe the platform independent, program independent, 
+                            language independent.
+                            
+    11.  What are FileInputStream and FileOutputStream?  Explain with an example to read and write into files.
+    
+        These input/output streams are used with byte data types (binary).
+    
+        FileInputStream:  It contains the input byte from a file and implements the input stream
+        
+        FileOutputStream:  It uses for writing data to a file and also implements an output stream
+        
+        Example:
+        
+        public class FileHandling { 
+            public static void main( String[] args ) throws IOException {
+                File inputStream = new FileInputStream("Input.txt");
+                File outputStream = new FileOutputStream("Output.txt", true);
+                
+                byte[] buffer = new byte[1024];
+                int bytesRead;
+                while ((bytesRead = inputStream.read(buffer)) != -1){
+                    outputStream.write(buffer, 0, bytesRead);
+                }
+                inputStream.close();
+                outputStream.close();
+            } // end psvm
+        } // end FileHandling class.
+
+    12.  What are FileReader and FileWriter?  Explain with an eaxmple to read and write into files.
+    
+        FileReader:  The FileReader class makes it possible to read the contents of a file as a stream of characters.
+                     It works much like the FileInputStream, except the FileInputStream reads bytes, whereas the FileReader
+                     reads characters.
+                     
+                     The FileReader is intended to read text, in other words.  One character may correspond to one or 
+                     more bytes depending on the character encoding scheme.  The File Reader object also lets web applications
+                     asynchrononously read the contents of files (or raw data buffers) stored on the user's computer, 
+                     using File or Blob objects to specify the file or data to read.
+                     
+        FileWriter:  The class is used to write character files. 
+                     Creation of a FileWriter is not dependent on the file already existing.
+                     FileWriter will create the file before opening it for output when you create the object.
+                     Its write() methods allow you to write character(s) or Strings to a file.  
+                     FileWriters are usually wrapped by higher-level Writer objects such as BufferedWriters
+                     or PrintWriters, which provide better performance and higher-level, more flexible methods to 
+                     write data.
+                     
+                     
+         Example use of FileReader:
+         
+         public class ExampleFileWriter{
+            public static void main(String args[]) {
+                File file = new File("fileWrite2.txt");
+                FileWriter fw = new FileWriter(file);
+                for ( int i = 0; i < 10; i++) { 
+                    fw.write("This is awesome!: "+ i);
+                    fw.flush();
+                }
+                fw.close();
+            }
+         }
+         
+         Example of FileWriter and FileReader used in conjunction as follows:
+         
+         public class ExampleFileReaderAndFileWriter{
+            public static void main ( String args[] ){
+                int c;
+                FileReader fr = new FileReader("foo.txt");
+                FileWriter fw = new FileWriter("characteroutput.txt");
+                while (( c = fr.read()) != -1 ){
+                    fw.write(c); // copy contents of foo.txt >> characteroutput.txt
+                }
+            }
+         }
+
+    13.  What is the difference between ArrayList and LinkedList?
+    
+        ** PAY ATTN **
+        
+        ArrayList  
+        ---------
+            * Random Access
+            * Only objects can be added
+            * Insertions into the 'middle' are expensive, because it forces you to move all nodes from right >> right.
+        
+        LinkedList
+        ----------
+            * Sequential Access.  The control traverses from the first node to reach the Indexed Node O(N) to find.
+            * The LinkedList is implemented using nodes linked to eachother.
+                Each node contains a previous node link, next node link, and value.  Which contains the actual data.
+                
