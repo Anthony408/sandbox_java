@@ -1,4 +1,4 @@
-package q_and_a;
+package q_and_a.example_OO_polymorphism;
 
 import org.junit.Test;
 

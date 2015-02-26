@@ -63,9 +63,6 @@ public class ComponentTree {
      */
     private void insertNode(String name, List<String> parents, List<String> children){
 
-        // TODO debug here, some nodes dependencies are messed up.
-        // for example, REMOVE BROWSER is failing because the nodes have extra parents.
-        
         ComponentNode node = null;
 
         // check if node already exists

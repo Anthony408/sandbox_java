@@ -104,6 +104,6 @@ class testGraphDraw {
         frame.addNode("b", 100,100);
         frame.addNode("longNode", 200,200);
         frame.addEdge(0,1);
-        frame.addEdge(0,2);
+        frame.addEdge(1,2);
     }
 }
