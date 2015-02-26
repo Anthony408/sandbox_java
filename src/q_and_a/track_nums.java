@@ -34,3 +34,15 @@ public class track_nums {
         }
     }
 }
+
+/**
+ ========== OUTPUT ============
+ Number(1) Frequency(1)
+ Number(2) Frequency(1)
+ Number(3) Frequency(4)
+ Number(4) Frequency(1)
+ Number(7) Frequency(1)
+ Number(8) Frequency(1)
+ Number(10) Frequency(1)
+ ==============================
+ **/
